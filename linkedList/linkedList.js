@@ -95,13 +95,31 @@ class MyLinkedList{
         let values = [];
         let aux = this.head;
         for(let i = 0; i < this.length; i++){
-            //console.log(i)
+           //console.log(aux.value);
             values.push(aux.value);
             aux = aux.next;
         }
         return values;
     }
+    
+    //retorna uma nova lista ligada so que no caminho inverso a desta 
+    reverse(){
 
+        //crio uma nova ListaLigada;
+        let newLinkedList = new MyLinkedList(0);
+        let values = this.showAll().reverse();
+        
+        //Adiciono todos os itens
+        for(let i = 0; i < values.length; i++){
+            newLinkedList.append(values[i]);
+        }
+
+        //remove 1º item;
+        newLinkedList.remove(0);
+        this.head = newLinkedList.head;
+        this.tail = newLinkedList.tail;
+        //return newLinkedList;
+    }
 
 }
 
@@ -110,12 +128,26 @@ myLinkedList.append(5);
 myLinkedList.append(16);
 myLinkedList.append(28);
 myLinkedList.prepend(-100)
-console.log(myLinkedList.showAll());
+//console.log(myLinkedList.showAll());
 
 //console.log(myLinkedList)
 //console.log(myLinkedList);
 
-myLinkedList.insert(4, -50);
-myLinkedList.remove(5);
+//myLinkedList.insert(4, -50);
+//myLinkedList.remove(5);
+
+console.log(myLinkedList);
+
+console.log(myLinkedList.showAll());
+
+console.log("--------------REVERSE-------------")
+
+myLinkedList.reverse();
 console.log(myLinkedList.showAll());
 console.log(myLinkedList);
+
+//console.log(myLinkedList);
+/*
+let reverseLinkedList = myLinkedList.reverse();
+console.log(reverseLinkedList);
+console.log(reverseLinkedList.showAll());*/
