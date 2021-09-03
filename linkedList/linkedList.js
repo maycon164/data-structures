@@ -74,7 +74,12 @@ class MyLinkedList{
 
             this.head = this.head.next;
 
-        }else{
+        }else if(index == this.length - 1){
+            let currentNode = this.traverseToIndex(index - 1);
+            currentNode.next = null;
+            this.tail = currentNode;
+        }
+        else{
 
             let currentNode = this.traverseToIndex(index - 1);
             let nextNode = currentNode.next.next;
