@@ -102,8 +102,26 @@ class MyLinkedList{
         return values;
     }
     
-    //retorna uma nova lista ligada so que no caminho inverso a desta 
     reverse(){
+        if(!this.head.next) return this.head;
+        
+        let first = this.head;
+        let second = this.head.next;
+
+        this.tail = this.head;
+        while(second){
+            let temp = second.next;
+            second.next = first;
+            first = second;
+            second = temp;
+        }
+        this.head.next = null;
+        this.head = first;
+        return this.showAll();
+    }
+
+    //retorna uma nova lista ligada so que no caminho inverso a desta 
+    reverse2(){
 
         //crio uma nova ListaLigada;
         let newLinkedList = new MyLinkedList(0);
@@ -142,9 +160,10 @@ console.log(myLinkedList.showAll());
 
 console.log("--------------REVERSE-------------")
 
-myLinkedList.reverse();
-console.log(myLinkedList.showAll());
+console.log(myLinkedList.reverse());
 console.log(myLinkedList);
+//console.log(myLinkedList.showAll());
+//console.log(myLinkedList);
 
 //console.log(myLinkedList);
 /*
