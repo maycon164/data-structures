@@ -1,9 +1,7 @@
-const Node = require('./node');
-
 class Stack{
     constructor(){
         this.data = new Array();
-        this.length = this.data.length;
+        
     }
 
     push(value){
@@ -16,7 +14,7 @@ class Stack{
     }
 
     peek(){
-        return this.data[this.length];
+        return this.data[this.data.length - 1];
     }
 }
 
@@ -38,3 +36,4 @@ console.log(stack.pop());
 console.log(stack)
 
 console.log(stack.peek());
+//console.log(stack.data.length);
