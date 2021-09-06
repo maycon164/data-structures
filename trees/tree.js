@@ -65,3 +65,12 @@ tree.insert(1);
 console.log(tree.insert(15));
 
 console.log(tree.root.right);
+
+function traverse(node){
+    const tree = {value: node.value};
+    tree.left = node.left === null ? null : traverse(node.left);
+    tree.right = node.right === null ? null : traverse(node.right);
+    return tree;
+}
+
+console.log(JSON.stringify(traverse(tree.root)));
