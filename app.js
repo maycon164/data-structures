@@ -1,5 +1,4 @@
-//const notes = require('../course-nodejs/notes');
-const chalk = require('chalk');
+const notes = require('./notes');
 const yargs = require('yargs');
 const { hideBin } = require('yargs/helpers')
 const fs = require('fs');
@@ -24,8 +23,7 @@ yargs(hideBin(process.argv))
 
         handler: (argv) => {
 
-            fs.writeFileSync("./notes/" + argv.title + ".json", JSON.stringify({ title: argv.title, body: argv.body }));
-            console.log(chalk.green("new file created: " + argv.title));
+            notes.addNote(argv.title, argv.body);
 
         }
     })
@@ -39,15 +37,10 @@ yargs(hideBin(process.argv))
     .command({
         command: 'list',
         describe: 'listing command',
+
         handler: () => {
 
-            fs.readdir("./notes", (err, notes) => {
-                if (err) {
-                    console.error(err);
-                    return;
-                }
-                notes.forEach((note, index) => console.log(chalk.green(index + " - " + note)));
-            });
+            notes.showNotes()
 
         }
     })
@@ -72,7 +65,7 @@ yargs(hideBin(process.argv))
                 let note = JSON.parse(data);
 
                 for (let value in note) {
-                    console.log(chalk.green.bold(value) + "\n   " + chalk.green(note[value]));
+                    console.log(value + "\n   " + note[value]);
                 }
 
             });
