@@ -1,23 +1,34 @@
 const notes = require('../course-nodejs/notes');
-const yargs = require('yargs/yargs')(process.argv.slice(2));
-let argv = yargs.argv;
+const yargs = require('yargs');
+const { hideBin } = require('yargs/helpers')
 
-yargs.command({
-    command: 'add',
-    describe: 'add a new note',
-    handler: function () {
-        console.log("adding a new note to app")
-    }
-})
-
-if (argv.add) {
-    console.log("adding a new note")
-} else if (argv.remove) {
-    console.log("Removing a note");
-} else if (argv.list) {
-    console.log("listing all notes")
-} else if (argv.read) {
-    console.log("reading a note .... wait a minute")
-}
-
+yargs(hideBin(process.argv))
+    .command({
+        command: 'add',
+        describe: 'adding command',
+        handler: () => {
+            console.log("adding notes")
+        }
+    })
+    .command({
+        command: 'remove',
+        describe: 'remove command',
+        handler: () => {
+            console.log("removing notes")
+        }
+    })
+    .command({
+        command: 'list',
+        describe: 'listing command',
+        handler: () => {
+            console.log("listing notes")
+        }
+    })
+    .command({
+        command: 'read',
+        describe: 'reading command',
+        handler: () => {
+            console.log("reading notes")
+        }
+    }).parse();
 
