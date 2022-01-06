@@ -36,10 +36,10 @@ const showNotes = function () {
     let notes = loadNotes();
 
     if (notes.length > 0) {
-
+        console.log(chalk.inverse("YOUR NOTES"))
         notes.forEach(note => {
 
-            console.log(chalk.green.bold(note.title));
+            console.log(chalk.green.bold("  ", note.title));
 
         });
 
@@ -68,10 +68,34 @@ const removeNote = function (title) {
     }
 }
 
+const readNote = function (title) {
+    let notes = loadNotes();
+
+    let note = notes.find(note => note.title == title);
+
+    if (note) {
+
+        for (let value in note) {
+
+            console.log(chalk.green.bold(value.toUpperCase()));
+            console.log("   ", chalk.green(note[value]));
+
+        }
+
+
+    } else {
+
+        console.log(chalk.red("note not found"));
+
+    }
+
+}
+
 module.exports = {
     addNote,
     saveNotes,
     loadNotes,
     showNotes,
-    removeNote
+    removeNote,
+    readNote
 }

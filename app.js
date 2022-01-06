@@ -1,8 +1,6 @@
 const notes = require('./notes');
 const yargs = require('yargs');
 const { hideBin } = require('yargs/helpers')
-const fs = require('fs');
-
 
 yargs(hideBin(process.argv))
     .command({
@@ -57,7 +55,7 @@ yargs(hideBin(process.argv))
         command: 'read',
         describe: 'reading command',
         builder: {
-            file: {
+            title: {
                 describe: "the file name",
                 demandOption: true,
                 type: "string"
@@ -65,19 +63,8 @@ yargs(hideBin(process.argv))
         },
         handler: (argv) => {
 
-            fs.readFile(__dirname + "/notes/" + argv.file, { encoding: 'utf-8', flag: 'r' }, (error, data) => {
-                if (error) {
-                    console.log(chalk.red("something went wrong"));
-                    return;
-                }
+            notes.readNote(argv.title);
 
-                let note = JSON.parse(data);
-
-                for (let value in note) {
-                    console.log(value + "\n   " + note[value]);
-                }
-
-            });
         }
     }).parse();
 
