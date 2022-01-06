@@ -50,16 +50,28 @@ const showNotes = function () {
     }
 }
 
+const removeNote = function (title) {
+    let notes = loadNotes();
 
-/*/fs.writeFileSync("./notes/data.json", "aluma coisa")
+    if (notes.length > 0) {
+        let notesToKeep = notes.filter(note => note.title != title);
 
-fs.readdir(__dirname + "./notes", (err, data) => {
-    data.forEach(d => console.log(d));
-})*/
+        if (notesToKeep.length < notes.length) {
+            saveNotes(notesToKeep);
+            console.log(chalk.green(`${title} was removed`));
+        } else {
+            console.log(chalk.red(`${title} not found`));
+        }
+
+    } else {
+        console.log(chalk.red("you don't have notes yet"));
+    }
+}
 
 module.exports = {
     addNote,
     saveNotes,
     loadNotes,
-    showNotes
+    showNotes,
+    removeNote
 }

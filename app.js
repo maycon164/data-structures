@@ -30,8 +30,17 @@ yargs(hideBin(process.argv))
     .command({
         command: 'remove',
         describe: 'remove command',
-        handler: () => {
-            console.log("removing notes")
+        builder: {
+            title: {
+                describe: "title to be removed",
+                demandOption: true,
+                type: "string"
+            }
+        },
+        handler: (argv) => {
+
+            notes.removeNote(argv.title);
+
         }
     })
     .command({
