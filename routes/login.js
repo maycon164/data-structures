@@ -4,12 +4,13 @@ const db = new MongoConnection();
 
 module.exports = (app) => {
 
-    app.post('/sign', async (req, res) => {
+    app.post('/sign', utils.checkEmail, async (req, res) => {
         let user = await db.sign(req.body);
 
         if (user) {
             return res.status(200).json(user);
         }
+
         return res.status(500).json({
             message: "something went wrong"
         });
@@ -23,8 +24,14 @@ module.exports = (app) => {
         }
     })
 
-    app.get('/users', utils.validateToken, (req, res) => {
+    app.get('/users', utils.validateToken, async (req, res) => {
         console.log(req.user);
+        let users = await db.getAll();
+
+        if (users) {
+            return res.status(200).json(users);
+        }
+
         return res.status(200).json({ message: "TOKEN VALIDO" });
     });
 
