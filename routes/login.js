@@ -1,6 +1,5 @@
-const MongoConnection = require('../database/MongoConnection');
+const db = require('../database/login');
 const utils = require('../helpers/utils');
-const db = new MongoConnection();
 
 module.exports = (app) => {
 
@@ -25,7 +24,6 @@ module.exports = (app) => {
     })
 
     app.get('/users', utils.validateToken, async (req, res) => {
-        console.log(req.user);
         let users = await db.getAll();
 
         if (users) {
