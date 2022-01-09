@@ -40,8 +40,26 @@ class MongoConnection {
     }
 
     login(user) {
+        return new Promise((resolve, reject) => {
+            User.findOne({ email: user.email }).then(ormUser => {
 
+                if (ormUser) {
+                    utils.checkHashPassword(user.password, ormUser.password)
+                        .then(result => {
 
+                            if (result) {
+                                utils.genereteToken(user).then(token => {
+                                    resolve(token);
+                                });
+                            } else {
+                                reject(null);
+                            }
+
+                        });
+                }
+            });
+
+        });
     }
 
 }
