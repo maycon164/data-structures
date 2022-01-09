@@ -3,56 +3,47 @@ const utils = require('../helpers/utils');
 
 module.exports = {
 
-    getAll() {
-        return new Promise((resolve, reject) => {
-            User.find().then(users => {
-                resolve(users);
-            }).catch(err => {
-                reject(err)
-            });
-        })
+    async getAll() {
+        let users = await User.find();
+
+        if (users) {
+            return users;
+        }
 
     },
 
-    sign(user) {
-        return new Promise((resolve, reject) => {
-            utils.getHashPassword(user.password).then(hashPassword => {
+    async sign(user) {
 
-                let ormUser = new User({
-                    email: user.email,
-                    password: hashPassword
-                });
-
-                ormUser.save().then(data => {
-                    resolve(data)
-                }).catch(err => {
-                    reject(err)
-                })
+        if (!user.email.trim() || !user.password.trim()) {
+            throw new Error('empty field');
+        } else {
+            let hashPassword = await utils.getHashPassword(user.password);
+            let ormUser = new User({
+                email: user.email,
+                password: hashPassword
             });
-        });
+            ormUser = await ormUser.save();
+            return ormUser;
+        }
+
     },
 
-    login(user) {
-        return new Promise((resolve, reject) => {
-            User.findOne({ email: user.email }).then(ormUser => {
+    async login(user) {
+        let orm = await User.findOne({ email: user.email })
 
-                if (ormUser) {
-                    utils.checkHashPassword(user.password, ormUser.password)
-                        .then(result => {
-
-                            if (result) {
-                                utils.genereteToken(user).then(token => {
-                                    resolve(token);
-                                });
-                            } else {
-                                reject(null);
-                            }
-
-                        });
+        if (orm) {
+            let result = await utils.checkHashPassword(user.password, orm.password)
+            if (result) {
+                let token = await utils.genereteToken({ email: user.email });
+                if (token) {
+                    return token;
                 }
-            });
-
-        });
+            } else {
+                throw new Error('PASSWORD INVALID');
+            }
+        } else {
+            throw new Error('USER NOT FOUND');
+        }
     }
 
 }

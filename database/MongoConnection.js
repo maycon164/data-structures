@@ -9,8 +9,6 @@ class MongoConnection {
             console.log('conectado ao mongodb')
         });
     }
-
-
 }
 
 module.exports = MongoConnection;

@@ -27,12 +27,11 @@ module.exports = {
         });
     },
 
-    genereteToken(user) {
+    genereteToken(email) {
         return new Promise((resolve, reject) => {
-            let token = jwt.sign(user, process.env.PRIVATE_KEY, {
+            let token = jwt.sign(email, process.env.PRIVATE_KEY, {
                 expiresIn: 36000
             });
-            console.log(token);
             resolve(token);
         });
     },
@@ -61,7 +60,8 @@ module.exports = {
                     next()
                 }
             });
-
+        } else {
+            return res.status(400).json({ message: 'empty email' })
         }
 
     }

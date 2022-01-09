@@ -5,8 +5,9 @@ const MongoConnection = require('./database/MongoConnection');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+//app.use(express.static('uploads'));
 
-//Conexao
+//Conexao com MongoDB
 MongoConnection.getConnection();
 
 consign().include('routes').into(app);

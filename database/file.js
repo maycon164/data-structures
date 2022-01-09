@@ -2,25 +2,15 @@ const { File } = require('../model/File');
 
 module.exports = {
 
-    saveFile(file) {
-        return new Promise((resolve, reject) => {
-            let ormFile = new File(file);
-
-            ormFile.save().then(file => {
-                if (file) resolve(file)
-            }).catch(err => reject());
-
-        });
+    async saveFile(file) {
+        let orm = new File(file);
+        orm = await orm.save();
+        if (orm) return orm;
     },
 
-    getAllFiles() {
-        return new Promise((resolve, reject) => {
-            File.find().then(files => {
-                resolve(files)
-            }).catch(err => {
-                reject()
-            });
-        });
+    async getAllFiles() {
+        let files = File.find();
+        if (files) return files;
     }
 
 }
